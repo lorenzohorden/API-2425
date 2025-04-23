@@ -1,7 +1,41 @@
-header {
-  padding: 1rem;
+html {
+  --color-background: #DADEDE;
+  --color-primary: #2E2047;
+  --color-secundary: #5D6D87;
 }
 
-footer {
-  padding: 1rem;
+*, 
+*::before, 
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: var(--color-primary);
+  height: 3rem;
+
+  ul {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  li {
+    display: flex;
+  }
+
+  input, input:focus {
+    border: none;
+    outline: none;
+    background-color: white;
+    height: 2rem;
+    padding: .5rem;
+  }
+
+  button {
+    height: 2rem;
+    aspect-ratio: 1;
+  }
 }

@@ -2,16 +2,121 @@
 
 {% block content %}
 
-<h1 class="h1">{{ title }}</h1>
+  <h1 class="h1">{{ title }}</h1>
 
-<ul class="grid">
-  {% for item in items %}
-    <li>
-      <a href="/plant/{{ item.id }}">
-        {% render 'server/components/card/card.liquid', item: item %}
-      </a>
-    </li>
-  {% endfor %}
-</ul>
+  <form method="get" action="/recommendation/">
+    <fieldset>
+      <legend>Welk genre vind je leuk?</legend>
+
+      <label>samba
+        <input
+          type="radio"
+          name="genre"
+          value="samba" />
+      </label>
+
+      <label>funk
+        <input
+          type="radio"
+          name="genre"
+          value="funk" />
+      </label>
+
+      <label>jazz
+        <input
+          type="radio"
+          name="genre"
+          value="jazz" />
+      </label>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>genres</legend>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="acoustic"> Acoustic</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="afrobeat"> Afrobeat</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="alt-rock"> Alt-Rock</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="alternative"> Alternative</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="ambient"> Ambient</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="black-metal"> Black Metal</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="bluegrass"> Bluegrass</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="blues"> Blues</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="bossanova"> Bossa Nova</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="brazil"> Brazil</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="breakbeat"> Breakbeat</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="british"> British</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="cantopop"> Cantopop</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="chicago-house"> Chicago House</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="children"> Children</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="chill"> Chill</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="classical"> Classical</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="club"> Club</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="comedy"> Comedy</label>
+      <label><input
+          type="checkbox"
+          name="genre"
+          value="country"> Country</label>
+    <!-- Voeg hier meer genres toe indien gewenst -->
+    </fieldset>
+
+    <button type="submit">geef tracks!</button>
+  </form>
 
 {% endblock %}

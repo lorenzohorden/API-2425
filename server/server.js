@@ -3,29 +3,8 @@ import { App } from '@tinyhttp/app';
 import { logger } from '@tinyhttp/logger';
 import { Liquid } from 'liquidjs';
 import sirv from 'sirv';
+import getAccessToken from './scripts/token.js';
 
-const data = {
-  'beemdkroon': {
-    id: 'beemdkroon',
-    name: 'Beemdkroon',
-    image: {
-      src: 'https://i.pinimg.com/736x/09/0a/9c/090a9c238e1c290bb580a4ebe265134d.jpg',
-      alt: 'Beemdkroon',
-      width: 695,
-      height: 1080,
-    }
-  },
-  'wilde-peen': {
-    id: 'wilde-peen',
-    name: 'Wilde Peen',
-    image: {
-      src: 'https://mens-en-gezondheid.infonu.nl/artikel-fotos/tom008/4251914036.jpg',
-      alt: 'Wilde Peen',
-      width: 418,
-      height: 600,
-    }
-  }
-}
 
 const engine = new Liquid({
   extname: '.liquid',
@@ -38,18 +17,57 @@ app
   .use('/', sirv('dist'))
   .listen(3000, () => console.log('Server available on http://localhost:3000'));
 
+
+
+
+
+
 app.get('/', async (req, res) => {
-  return res.send(renderTemplate('server/views/index.liquid', { title: 'Home', items: Object.values(data) }));
+  const token = await getAccessToken();
+  console.log(token)
+  return res.send(renderTemplate('server/views/index.liquid', {  }));
 });
 
-app.get('/plant/:id/', async (req, res) => {
-  const id = req.params.id;
-  const item = data[id];
-  if (!item) {
-    return res.status(404).send('Not found');
-  }
-  return res.send(renderTemplate('server/views/detail.liquid', { title: `Detail page for ${id}`, item }));
-});
+
+// app.get('/plant/:id/', async (req, res) => {
+//   const id = req.params.id;
+//   const item = data[id];
+//   if (!item) {
+//     return res.status(404).send('Not found');
+//   }
+//   return res.send(renderTemplate('server/views/detail.liquid', { title: `Detail page for ${id}`, item }));
+// });
+
+app.get('/recommendation/', async (req, res) => {
+  const { genre } = req.query;
+
+  const searchQuery = `q=genre%3A${genre}&type=track`
+
+  const accessToken = await getAccessToken();
+
+  const searchResponse = await fetch(
+    `https://api.spotify.com/v1/search?${searchQuery}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  const searchData = await searchResponse.json();
+  console.log(searchData.tracks.items[0]);
+  const randomNumber = Math.floor(Math.random() * 20);
+  const data = searchData.tracks.items[randomNumber]
+  return res.send(renderTemplate('server/views/result.liquid', { track: data }));
+})
+
+
+
+
+
+
+
+
 
 const renderTemplate = (template, data) => {
   const templateData = {

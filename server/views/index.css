@@ -1,5 +1,117 @@
+/* homepage */
+form fieldset:nth-of-type(2) {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+
+  input {
+    display: none;
+  }
+
+  label {
+    border: 1px solid black;
+
+    &:has(:checked) {
+      background-color: blue;
+      color: white;
+    }
+  }
+}
+
+
+/* details page */
 .grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1em;
+  row-gap: 2em;
+}
+
+
+.spotify-track {
+  background-color: var(--color-secundary);
+  border-radius: 1em;
+  padding: 1em;
+
+  img {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .track-info {
+    margin-bottom: .5em;
+
+    h2 {
+      color: var(--color-primary);
+      font-weight: bold;
+      font-size: 1.5em;
+      margin: .5em 0;
+    }
+
+    small {
+      display: block;
+      text-decoration: underline;
+      color: var(--color-background);
+      opacity: .5;
+      font-size: .75em;
+      pointer-events: none;
+      margin-top: .5em;
+    }
+
+    a {
+      color: var(--color-background);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+
+    .not-last-artist::after {
+      display: inline;
+      content: ", ";
+    }
+
+    .not-last-artist:hover::after {
+      color: var(--color-background);
+    }
+  }
+}
+
+.genre-box {
+  grid-row: 2;
+  height: 6em;
+  border: .25em dashed black;
+  box-sizing: border-box;
+  border-radius: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  p {
+    display: inline;
+    color: black;
+    font-size: 1.5em;
+  }
+
+  .genre {
+    display: block;
+    color: white;
+    font-size: 1em;
+    height: calc(100% + .5em);
+    width: calc(100% + .5em);
+    z-index: 1;
+    position: absolute;
+  }
+}
+
+.genre {
+  grid-row: 3;
+  height: 6em;
+  line-height: 6em; /* for vertical alignment of text */
+  border-radius: 1em;
+  background-color: blue;
+  text-align: center;
+  color: white;
 }
