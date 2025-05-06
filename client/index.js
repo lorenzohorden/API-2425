@@ -11,6 +11,12 @@ items.forEach((item) => {
     });
 });
 
+
+let elements = document.querySelectorAll("fieldset")
+const formQuestions = Array.from(elements).map(fieldset => fieldset.id)
+
+console.log(formQuestions)
+
 slots.forEach((slot) => {
     slot.addEventListener("dragover", e => {
         e.preventDefault();
@@ -19,8 +25,21 @@ slots.forEach((slot) => {
     slot.addEventListener("drop", e => {
         e.preventDefault();
 
+        // get question id
+        let questionId = e.srcElement.id
+        if(e.srcElement.classList[0] != "genre-box") {
+            questionId = e.srcElement.parentElement.id
+        }
+        console.log(e)
+
         const droppedGenreId = e.dataTransfer.getData("text/plain");
         const droppedGenre = document.getElementById(droppedGenreId);
+
+        console.log(droppedGenreId)
+        console.log(questionId)
+
+        console.log(document.querySelector(`input[name=${questionId}][value=${droppedGenreId}]`))
+        document.querySelector(`input[name=${questionId}][value=${droppedGenreId}]`).checked = true
 
         const currentChild = slot.querySelector(".genre");
 
@@ -75,3 +94,51 @@ function selectThreeGenres() {
       alert("Geselecteerde genres: " + selected.join(", "));
     });
 }
+
+function shuffleGenres() {
+    const tracks = document.querySelectorAll(".spotify-track")
+    const genreBoxes = document.querySelectorAll(".genre-box")
+
+    const numbers = [0, 1, 2];
+    // Fisher-Yates shuffle
+    for (let i = numbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+
+    for (let i = 1; i < items.length+1; i++) {
+        genreBoxes[numbers[i-1]].style.gridColumn = `${i} / ${i + 1}`
+        tracks[numbers[i-1]].style.gridColumn = `${i} / ${i + 1}`
+    }
+}
+
+function popOver() {
+    const popover = document.querySelector("#popover")
+    const closeButton = document.querySelector("#popover button")
+    if(popover){
+        popover.showPopover()
+
+        // check answers
+        const correctGenres = document.querySelectorAll(".popover-genre")
+        const answers = document.querySelectorAll(".answer")
+        console.log(correctGenres, answers)
+
+        for (let i = 0; i < answers.length; i++) {
+            if (correctGenres[i].innerHTML === answers[i].innerHTML) {
+                console.log(answers[i].innerHTML)
+                console.log(correctGenres[i].innerHTML)
+                answers[i].style.color = "green"
+            } else {
+                answers[i].style.color = "red"
+            }
+        }
+
+        closeButton.addEventListener("click", () => {
+            popover.style.display = "none"
+        })
+    }
+}
+
+popOver()
+shuffleGenres()
+selectThreeGenres()

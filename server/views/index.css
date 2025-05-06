@@ -1,28 +1,121 @@
 /* homepage */
-form fieldset:nth-of-type(2) {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+form[action="/recommendation/"] {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   gap: 1em;
 
-  input {
-    display: none;
+  fieldset {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+
+    legend {
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+      color: var(--color-primary);
+      padding-bottom: 1em;
+    }
+
+    input {
+      display: none;
+    }
+
+    label {
+      background-color: var(--color-background);
+      color: var(--color-primary);
+      font-size: 1.5em;
+      height: 3em;
+      line-height: 3em;
+      text-align: center;
+      border-radius: 1em;
+
+      &:has(:checked) {
+        background-color: var(--color-primary);
+        color: var(--color-background);
+      }
+    }
   }
 
-  label {
-    border: 1px solid black;
-
-    &:has(:checked) {
-      background-color: blue;
-      color: white;
-    }
+  button {
+    font-size: 1.5em;
+    height: 4em;
+    line-height: 4em;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    border-radius: 1em;
+    padding: 0 3em;
   }
 }
 
 
 /* details page */
+#popover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+
+  h2 {
+    color: var(--color-primary);
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  div {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    img {
+      width: 10em;
+      grid-column: 1/2;
+    }
+
+    .popover-genre {
+      grid-column: 2/3;
+      &:nth-of-type(1){grid-row: 1/2;}
+      &:nth-of-type(2){grid-row: 2/3;}
+      &:nth-of-type(3){grid-row: 3/4;}
+    }
+
+    .answer {
+      grid-column: 3/4;
+    }
+
+    p {
+      text-align: center;
+    }
+  }
+
+  button {
+    border: none;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border-radius: 1em;
+    padding: 1em;
+    font-size: 1em;
+  }
+
+  &::backdrop {
+    background: black;
+    opacity: .4;
+  }
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr 1fr 2fr;
   column-gap: 1em;
   row-gap: 2em;
 }
@@ -32,6 +125,10 @@ form fieldset:nth-of-type(2) {
   background-color: var(--color-secundary);
   border-radius: 1em;
   padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  grid-row: 1/2;
 
   img {
     width: 100%;
@@ -78,10 +175,32 @@ form fieldset:nth-of-type(2) {
   }
 }
 
+#score {
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  grid-column: 4/6;
+  grid-row: 1/2;
+
+  p:nth-of-type(1) {
+    color: var(--color-background);
+  }
+  p:nth-of-type(2) {
+    font-size: 4rem;
+    color: var(--color-background);
+    -webkit-text-stroke: 2px var(--color-secundary);
+  }
+}
+
 .genre-box {
   grid-row: 2;
   height: 6em;
-  border: .25em dashed black;
+  background-color: var(--color-background);
+  border: .25em dashed var(--color-primary);
+  color: var(--color-primary);
   box-sizing: border-box;
   border-radius: 1em;
   display: flex;
@@ -98,7 +217,6 @@ form fieldset:nth-of-type(2) {
   .genre {
     display: block;
     color: white;
-    font-size: 1em;
     height: calc(100% + .5em);
     width: calc(100% + .5em);
     z-index: 1;
@@ -108,10 +226,24 @@ form fieldset:nth-of-type(2) {
 
 .genre {
   grid-row: 3;
-  height: 6em;
-  line-height: 6em; /* for vertical alignment of text */
+  height: 4em;
+  line-height: 4em; /* for vertical alignment of text */
   border-radius: 1em;
-  background-color: blue;
+  background-color: var(--color-secundary);
   text-align: center;
   color: white;
+  font-size: 1.5em;
+}
+
+form[action="/answer"] :not(button) {
+  display: none;
+}
+
+form[action="/answer"] button {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 1em 2em;
+  border: none;
+  border-radius: 1em;
+  font-size: 1.5em;
 }

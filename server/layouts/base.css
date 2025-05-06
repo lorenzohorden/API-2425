@@ -13,29 +13,17 @@ html {
 
 header {
   background-color: var(--color-primary);
-  height: 3rem;
+  height: 4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  ul {
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  a {
+    color: var(--color-background);
+    text-decoration: none;
 
-  li {
-    display: flex;
-  }
-
-  input, input:focus {
-    border: none;
-    outline: none;
-    background-color: white;
-    height: 2rem;
-    padding: .5rem;
-  }
-
-  button {
-    height: 2rem;
-    aspect-ratio: 1;
+    &:hover {
+      color: var(--color-secundary);
+    }
   }
 }

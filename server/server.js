@@ -38,27 +38,62 @@ app.get('/', async (req, res) => {
 //   return res.send(renderTemplate('server/views/detail.liquid', { title: `Detail page for ${id}`, item }));
 // });
 
+let genres
+let oldSongs1 = []
+let oldSongs2 = []
+let answers = []
+let score = 0
 app.get('/recommendation/', async (req, res) => {
-  const { genre } = req.query;
+   genres = req.query.genre; // getting the genres out of the query
 
-  const searchQuery = `q=genre%3A${genre}&type=track`
+  // put the result for each genre in array
+  const tracks = []
+  oldSongs1 = []
+  for (const genre of genres) {
+    const searchQuery = `q=genre%3A${genre}&type=track`;
+    const accessToken = await getAccessToken();
 
-  const accessToken = await getAccessToken();
+    const searchResponse = await fetch(
+      `https://api.spotify.com/v1/search?${searchQuery}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
-  const searchResponse = await fetch(
-    `https://api.spotify.com/v1/search?${searchQuery}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+    const data = await searchResponse.json();
+    const randomInt = Math.floor(Math.random() * 10) + 1;
+    const track = data.tracks.items[randomInt];
+    tracks.push(track);
+    oldSongs1.push(track)
+  }
 
-  const searchData = await searchResponse.json();
-  console.log(searchData.tracks.items[0]);
-  const randomNumber = Math.floor(Math.random() * 20);
-  const data = searchData.tracks.items[randomNumber]
-  return res.send(renderTemplate('server/views/result.liquid', { track: data }));
+  console.log(oldSongs2)
+  return res.send(renderTemplate('server/views/result.liquid', { tracks, genres, score, oldSongs2, answers }));
+})
+
+
+app.get('/answer', async (req, res) => {
+  answers = []
+  for (let i = 0; i < 3; i++) { 
+    answers.push(req.query[`genre-${i+1}`])
+  }
+  console.log(answers)
+  console.log(genres)
+
+  // check if answer is correct then add 1 to score
+  for (let i = 0; i < 3; i++) {
+    if(answers[i] == genres[i]) {
+      score += 1;
+    } 
+  }
+
+  oldSongs2 = []
+  oldSongs2 = oldSongs1
+
+  console.log(`score is: ${score}`)
+  return res.redirect(`/recommendation/?genre=${genres[0]}&genre=${genres[1]}&genre=${genres[2]}`)
 })
 
 

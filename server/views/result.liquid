@@ -2,69 +2,112 @@
 
 {% block content %}
 
-  <div class="grid">
-    <div class="spotify-track">
-      <div class="track-card">
-        <img
-          src="{{ track.album.images[0].url }}"
-          alt="Album cover: {{ track.album.name }}"
-          class="album-cover" />
+  {% if oldSongs2.size > 0 %}
+    <div id="popover" popover>
+      <h2>Antwoorden</h2>
+      <div>
+        {% for track in oldSongs2 %}
+          <img
+            src="{{ track.album.images[0].url }}"
+            alt="Album cover: {{ track.album.name }}"
+            class="album-cover" />
+        {% endfor %}
+        {% for genre in genres %}
+          <p class="popover-genre">{{ genre }}</p>
+        {% endfor %}
+        {% for answer in answers %}
+          <p class="answer" style="grid-row: {{ forloop.index }} / {{ forloop.index | plus: 1 }};">{{ answer }}</p>
+        {% endfor %}
+      </div>
+      <button>ga door</button>
+    </div>
+  {% endif %}
 
-        <div class="track-info">
-          <h2>{{ track.name }}</h2>
-          <small>artist</small>
-          <p>
-            {% for artist in track.artists %}
-              <a
-                href="{{ artist.external_urls.spotify }}"
-                class="artist-link {% unless forloop.last %}not-last-artist{% endunless %}"
-                target="_blank">
-                {{ artist.name }}</a>
-            {% endfor %}
-          </p>
-          <small>album</small>
-          <a
-            href="{{ track.album.external_urls.spotify }}"
-            class="album-link"
-            target="_blank">{{ track.album.name }}</a>
+  <div class="grid">
+    {% for track in tracks %}
+      <div class="spotify-track" id="track-{{ forloop.index }}">
+        <div class="track-card">
+          <img
+            src="{{ track.album.images[0].url }}"
+            alt="Album cover: {{ track.album.name }}"
+            class="album-cover" />
+
+          <div class="track-info">
+            <h2>{{ track.name }}</h2>
+            <small>artist</small>
+            <p>
+              {% for artist in track.artists %}
+                <a
+                  href="{{ artist.external_urls.spotify }}"
+                  class="artist-link {% unless forloop.last %}not-last-artist{% endunless %}"
+                  target="_blank">
+                  {{ artist.name }}</a>
+              {% endfor %}
+            </p>
+            <small>album</small>
+            <a
+              href="{{ track.album.external_urls.spotify }}"
+              class="album-link"
+              target="_blank">{{ track.album.name }}</a>
+          </div>
+        </div>
+
+        <div class="spotify-embed">
+          <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/track/{{ track.id }}?utm_source=generator"
+            width="100%"
+            height="152"
+            frameBorder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
         </div>
       </div>
+    {% endfor %}
 
-      <div class="spotify-embed">
-        <iframe
-          style="border-radius:12px"
-          src="https://open.spotify.com/embed/track/{{ track.id }}?utm_source=generator"
-          width="100%"
-          height="152"
-          frameBorder="0"
-          allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
+    <div id="score">
+      <p>je score is:</p>
+      <p>{{ score }}</p>
     </div>
 
-    <div class="genre-box">
+    <form method="GET" action="/answer">
+      {% for question_index in (1..3) %}
+        <fieldset id="genre-{{ question_index }}">
+          <legend>Kies een genre voor vraag {{ question_index }}</legend>
+          {% for genre in genres %}
+            <label>
+              <input
+                type="radio"
+                name="genre-{{ question_index }}"
+                value="{{ genre }}"
+                required />
+              {{ genre }}
+            </label><br/>
+          {% endfor %}
+        </fieldset>
+      {% endfor %}
+
+      <button type="submit">Door</button>
+    </form>
+
+
+    <div class="genre-box" id="genre-1">
       <p>genre</p>
     </div>
-    <div class="genre-box">
+    <div class="genre-box" id="genre-2">
       <p>genre</p>
     </div>
-    <div class="genre-box">
+    <div class="genre-box" id="genre-3">
       <p>genre</p>
     </div>
 
-    <p
-      class="genre"
-      id="jazz"
-      draggable="true">Jazz</p>
-    <p
-      class="genre"
-      id="funk"
-      draggable="true">Funk</p>
-    <p
-      class="genre"
-      id="samba"
-      draggable="true">Samba</p>
+    {% for genre in genres %}
+      <p
+        class="genre"
+        id="{{ genre | downcase | replace: ' ', '-' }}"
+        draggable="true">{{ genre }}</p>
+    {% endfor %}
   </div>
 
 {% endblock %}
