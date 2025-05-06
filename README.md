@@ -64,3 +64,18 @@ Hier komen drie nummers te staan met daaronder drie genres die je moet koppelen 
 
 Op deze pagina word op de achtergrond gecheckt welke antwoorden goed zijn en alle goede antwoorden krijgen een groene kleur en de foute een rode kleur. Verder is de pagina hetzelfde als de vorige, hierna kun je doorklikken naar pagina 2 wat het een oneindige loop maakt.
 
+Ik heb deze week vooral aan de indeling en de styling van de eerste twee pagina's gewerkt.
+
+
+## week 4
+
+Deze week ben ik vooral bezig geweest met de drag and drop API, ik had verwacht dat dit sneller zou gaan, maar dat viel erg tegen dus dat kostte een hoop tijd. Uiteindelijk is dit alles wat ik heb kunnen doen.
+
+
+## herkansing
+
+Ik heb in de vakantie een hoop dingen gedaan, hier is een korte samenvatting van de belangrijkste dingen:
+
+1. het kiezen van de genres is op de achtergrond met js gekoppeld aan een formulier dat de antwoorden invult zodat het gecheckt kan worden
+2. als het formulier is ingevuld word de gebruiker doorgestuurd naar een pagina waar de antwoorden gecheckt worden en worden opgeteld bij de totaalscore
+3. de antwoorden worden opgeslagen in de server en via een popover laten zien in de pagina waar je kunt raden, zodra je die wegklikt kun je nieuwe nummers raden
